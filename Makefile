@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Wdeclaration-after-statement -Wbad-function-cast \
 	-Wmissing-prototypes -Werror -g
 LIBS = -lm
 TARGET = red
-SOURCES = red_hopfield_deterministav03.c matrix.c ran2.c
+SOURCES = red_hopfield_deterministav04.c matrix.c ran2.c
 OBJECTS = $(SOURCES:%.c=%.o)
 
 all: $(TARGET)
