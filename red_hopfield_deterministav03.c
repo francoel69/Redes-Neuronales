@@ -7,7 +7,7 @@
 #include "matrix.h"
 
 #define MAX_ITER 10
-#define N 416	//Cantidad de neuronas;
+#define N 208	//Cantidad de neuronas;
 #define PMAX (N/2)
 #define FIRING 1
 #define NOT_FIRING -1
