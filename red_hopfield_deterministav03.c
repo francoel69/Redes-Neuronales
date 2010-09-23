@@ -12,7 +12,6 @@
 #define FIRING 1
 #define NOT_FIRING -1
 
-int sgn(int);
 float uniform_gen(void);
 matrix memories(matrix xi, int p);
 void synapses(matrix w, const matrix xi, int P);
@@ -59,10 +58,6 @@ int main(void){
     destroy_matrix(saux);
 
   return 0;
-}
-
-int sgn(int v){
-  return v >= 0 ? FIRING : NOT_FIRING;
 }
 
 /* Generador de numeros aleatorios entre 0 y 1. */
