@@ -24,16 +24,20 @@ int neuron_d(const matrix xi, const matrix m, const matrix s,int i, int p);
 
 int main(void){
   matrix m, xi, s, saux;
-  int i= 0, p= 0, k= 0, m_medio= 0, dif= 0, min= 0;
-  float iter= 1.;
+  int i= 0, p= 0, k= 0, m_medio= 0, dif= 0, min= 0, varianza= 0;
+  float iter= 1., mean= 0., desv= 0.;
+//   FILE *out= NULL;
+//   
+//   out= fopen("out3", "w");
 
   s= create_matrix(N, 1);
   saux= create_matrix(N, 1);
   m= create_matrix(PMAX, 1);
   xi= create_matrix(N, PMAX);
 
-  for(p=4;p<=PMAX;p+=4){
+  for(p=8;p<=PMAX;p+=8){
     m_medio= 0;
+    varianza= 0;
     xi= memories(xi, p);
     min= iter>MAX_ITER ? MAX_ITER : (int)iter;
     for(k=0;k<min;k++){
@@ -49,15 +53,21 @@ int main(void){
 	}
       }
       m_medio += abs(get(k%p,0, m));
+      varianza += get(k%p,0, m)*get(k%p,0, m);
     }
     iter *= 1.1;
-    printf("%f\t%f\n", ((float)p)/N, ((float)m_medio)/(N*min));
+    mean= ((float)m_medio)/(N*min);
+    desv= sqrtf((((float)varianza)/(N*min))-(float)mean*mean);
+    printf("%f\t%f\t%f\n", ((float)p)/N, mean, desv);
+//     fprintf(out, "%f\t%f\n", ((float)p)/N, mean);
 
   }
   destroy_matrix(s);
   destroy_matrix(saux);
   destroy_matrix(xi);
   destroy_matrix(m);
+  
+//   fclose(out);
 
   return 0;
 }
