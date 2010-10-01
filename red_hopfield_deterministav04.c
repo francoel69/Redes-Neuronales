@@ -6,7 +6,7 @@
 #include "ran2.h"
 #include "matrix.h"
 
-#define MAX_ITER 10
+#define MAX_ITER 30
 #define N 832 //Cantidad de neuronas;
 #define PMAX (N/2)
 #define FIRING 1
@@ -14,7 +14,6 @@
 
 float uniform_gen(void);
 matrix memories(matrix xi, int p);
-// void synapses(matrix w, const matrix xi, int P);
 matrix calcular_m(const matrix s, const matrix xi, matrix m, int p);
 matrix actualizar_m(int dif, int i, const matrix xi, matrix m, int p);
 int firing(void);
@@ -27,15 +26,15 @@ int main(void){
   int i= 0, p= 0, k= 0, m_medio= 0, dif= 0, min= 0, varianza= 0;
   float iter= 1., mean= 0., desv= 0.;
 //   FILE *out= NULL;
-//   
-//   out= fopen("out3", "w");
+//  
+//   out= fopen("outvar", "w");
 
   s= create_matrix(N, 1);
   saux= create_matrix(N, 1);
   m= create_matrix(PMAX, 1);
   xi= create_matrix(N, PMAX);
 
-  for(p=8;p<=PMAX;p+=8){
+  for(p=4;p<=PMAX;p+=4){
     m_medio= 0;
     varianza= 0;
     xi= memories(xi, p);
@@ -57,9 +56,9 @@ int main(void){
     }
     iter *= 1.1;
     mean= ((float)m_medio)/(N*min);
-    desv= sqrtf((((float)varianza)/(N*min))-(float)mean*mean);
+    desv= sqrtf((((float)varianza)/(N*N*min))-(float)mean*mean);
     printf("%f\t%f\t%f\n", ((float)p)/N, mean, desv);
-//     fprintf(out, "%f\t%f\n", ((float)p)/N, mean);
+//     fprintf(out, "%f\t%f\t%f\n", ((float)p)/N, mean, desv);
 
   }
   destroy_matrix(s);
@@ -93,24 +92,6 @@ matrix memories(matrix xi, int p){
   }
   return xi;
 }
-
-/* Calcula la matriz sinaptica. */
-/*
-void synapses(matrix w, const matrix xi, int p){
-  int i= 0, j= 0, mu= 0, a= 0;
-
-  for(i=0;i<N;i++){
-    w= set(i,i,0,w);
-    for(j=0;j<i;j++){
-      a= 0;
-      for(mu=0;mu<p;mu++){
-        a+= get(i,mu,xi)*get(j,mu,xi);
-      }
-      w= set(i,j,a,w);
-      w= set(j,i,a,w);
-    }
-  }
-}*/
 
 matrix calcular_m(const matrix s, const matrix xi, matrix m, int p){
   int mu= 0, j= 0, sum= 0;
