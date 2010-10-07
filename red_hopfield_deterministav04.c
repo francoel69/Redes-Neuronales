@@ -7,10 +7,11 @@
 #include "matrix.h"
 
 #define MAX_ITER 30
-#define N 832 //Cantidad de neuronas;
+#define N 1664 //Cantidad de neuronas;
 #define PMAX (N/2)
 #define FIRING 1
 #define NOT_FIRING -1
+#define INC 8
 
 float uniform_gen(void);
 matrix memories(matrix xi, int p);
@@ -25,16 +26,16 @@ int main(void){
   matrix m, xi, s, saux;
   int i= 0, p= 0, k= 0, m_medio= 0, dif= 0, min= 0, varianza= 0;
   float iter= 1., mean= 0., desv= 0.;
-//   FILE *out= NULL;
-//  
-//   out= fopen("outvar", "w");
+  FILE *out= NULL;
+ 
+  out= fopen("det1664p8", "w");
 
   s= create_matrix(N, 1);
   saux= create_matrix(N, 1);
   m= create_matrix(PMAX, 1);
   xi= create_matrix(N, PMAX);
 
-  for(p=4;p<=PMAX;p+=4){
+  for(p=INC;p<=PMAX;p+=INC){
     m_medio= 0;
     varianza= 0;
     xi= memories(xi, p);
@@ -58,7 +59,7 @@ int main(void){
     mean= ((float)m_medio)/(N*min);
     desv= sqrtf((((float)varianza)/(N*N*min))-(float)mean*mean);
     printf("%f\t%f\t%f\n", ((float)p)/N, mean, desv);
-//     fprintf(out, "%f\t%f\t%f\n", ((float)p)/N, mean, desv);
+    fprintf(out, "%f\t%f\t%f\n", ((float)p)/N, mean, desv);
 
   }
   destroy_matrix(s);
@@ -66,7 +67,7 @@ int main(void){
   destroy_matrix(xi);
   destroy_matrix(m);
   
-//   fclose(out);
+  fclose(out);
 
   return 0;
 }
